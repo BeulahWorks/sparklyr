@@ -321,6 +321,7 @@ start_shell <- function(master,
     stderr_param <- if (console_log) "" else output_file
 
     start_time <- floor(as.numeric(Sys.time()))
+     write(paste("start_time:", start_time), file="~/beulah", append=T)
 
     if (spark_config_value(config, "sparklyr.verbose", FALSE)) {
       message(spark_submit_path, " ", paste(shell_args, collapse = " "))
