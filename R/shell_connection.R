@@ -320,7 +320,7 @@ start_shell <- function(master,
     stdout_param <- if (console_log) "" else output_file
     stderr_param <- if (console_log) "" else output_file
 
-    start_time <- as.numeric(Sys.time())
+    start_time <- floor(as.numeric(Sys.time()))
 
     if (spark_config_value(config, "sparklyr.verbose", FALSE)) {
       message(spark_submit_path, " ", paste(shell_args, collapse = " "))
