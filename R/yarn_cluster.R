@@ -150,7 +150,7 @@ spark_yarn_cluster_resource_manager_is_online <- function(rm_webapp) {
 }
 
 spark_yarn_cluster_get_resource_manager_webapp <- function() {
-  write("got to 3", file="beulah", append=T)
+  write("got to 3", file="~/beulah", append=T)
   rmHighAvailability <- spark_yarn_cluster_get_conf_property("yarn.resourcemanager.ha.enabled")
   rmHighAvailability <- length(rmHighAvailability) > 0 && grepl("TRUE", rmHighAvailability, ignore.case = TRUE)
 
@@ -190,11 +190,11 @@ spark_yarn_cluster_get_resource_manager_webapp <- function() {
     }
   }
 
-  write("got to 4", file="beulah", append=T)
+  write("got to 4", file="~/beulah", append=T)
   mainRMWebappValue <- spark_yarn_cluster_get_conf_property(mainRMWebapp)
 
-  write(paste("mainRMWebappValue:",mainRMWebappValue), file="beulah", append=T)
-  write(paste("rmHighAvailability:",rmHighAvailability), file="beulah", append=T)
+  write(paste("mainRMWebappValue:",mainRMWebappValue), file="~/beulah", append=T)
+  write(paste("rmHighAvailability:",rmHighAvailability), file="~/beulah", append=T)
   if (length(mainRMWebappValue) == 0) {
     if (rmHighAvailability) {
       stop("Failed to retrieve ", mainRMWebapp, " from yarn-site.xml")
@@ -202,13 +202,13 @@ spark_yarn_cluster_get_resource_manager_webapp <- function() {
     else {
       mainRM <- "yarn.resourcemanager.address"
       mainRMValue <- spark_yarn_cluster_get_conf_property(mainRM)
-      write(paste("mainRMValue:",mainRMValue), file="beulah", append=T)
+      write(paste("mainRMValue:",mainRMValue), file="~/beulah", append=T)
       if (length(mainRMValue) == 0) {
         stop("Failed to retrieve ", mainRMWebapp, " from yarn-site.xml")
       }
       else {
         mainRMWebappValue <- paste(sub(":[0-9]+$", "", mainRMValue), 8088, sep = ":")
-         write(paste("mainRMWebappValue:",mainRMWebappValue), file="beulah", append=T)
+         write(paste("mainRMWebappValue:",mainRMWebappValue), file="~/beulah", append=T)
       }
     }
   }
@@ -226,13 +226,13 @@ spark_yarn_cluster_get_protocol <- function() {
 }
 
 spark_yarn_cluster_get_gateway <- function(config, start_time) {
-  write("got to 1", file="beulah")
+  write("got to 1", file="~/beulah")
   resourceManagerWebapp <- spark_yarn_cluster_get_resource_manager_webapp()
-  write(paste("resourceManagerWebapp:", resourceManagerWebapp), file="beulah", append=T)
+  write(paste("resourceManagerWebapp:", resourceManagerWebapp), file="~/beulah", append=T)
   if (length(resourceManagerWebapp) == 0) {
     stop("Yarn Cluster mode uses `yarn.resourcemanager.webapp.address` but is not present in yarn-site.xml")
   }
-  write("got to 2", file="beulah", append=T)
+  write("got to 2", file="~/beulah", append=T)
   resourceManagerWebapp <- paste0(spark_yarn_cluster_get_protocol(), "://", resourceManagerWebapp)
 
   appId <- spark_yarn_cluster_get_app_id(
@@ -240,7 +240,7 @@ spark_yarn_cluster_get_gateway <- function(config, start_time) {
     start_time,
     resourceManagerWebapp)
 
-  write(paste("appId:", appId), file="beulah", append=T)
+  write(paste("appId:", appId), file="~/beulah", append=T)
   waitAcceptedSeconds <- spark_config_value(config, "sparklyr.yarn.cluster.accepted.timeout", 30)
   spark_yarn_cluster_while_app(
     resourceManagerWebapp,
@@ -287,6 +287,6 @@ spark_yarn_cluster_get_gateway <- function(config, start_time) {
     "amHostHttpAddress",
     ", try adjusting 'config$sparklyr.yarn.cluster.hostaddress.timeout'")
 
-  write(paste("amHostHttpAddress:", amHostHttpAddress), file="beulah", append=T)
+  write(paste("amHostHttpAddress:", amHostHttpAddress), file="~/beulah", append=T)
   strsplit(amHostHttpAddress, ":")[[1]][[1]]
 }
