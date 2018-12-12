@@ -284,7 +284,7 @@ start_shell <- function(master,
       shell_args <- c(shell_args, "--packages", paste(shQuote(packages, type = shQuoteType), collapse=","))
     }
     
-    if(!is.null(config[["sparklyr.shell.tags"]]){
+    if(!is.null(config[["sparklyr.shell.tags"]])){
        shell_args <- c(shell_args, "--conf", paste0("spark.yarn.tags=",config[["sparklyr.shell.tags"]]))
     }
 
