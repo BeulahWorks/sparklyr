@@ -220,6 +220,7 @@ spark_yarn_cluster_get_protocol <- function() {
 }
 
 spark_yarn_cluster_get_gateway <- function(config, start_time) {
+  write("got to 1", file="log", append=T)
   resourceManagerWebapp <- spark_yarn_cluster_get_resource_manager_webapp()
 
   if (length(resourceManagerWebapp) == 0) {
