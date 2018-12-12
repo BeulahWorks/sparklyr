@@ -284,9 +284,9 @@ start_shell <- function(master,
       shell_args <- c(shell_args, "--packages", paste(shQuote(packages, type = shQuoteType), collapse=","))
     }
     
-    write(config[["sparklyr.shell.tags"]], file="~/beulah", append=T)
+    write(config[["spark.yarn.tags"]], file="~/beulah", append=T)
     
-    shell_args <- c(shell_args, "--conf", paste0("spark.yarn.tags=",config[["sparklyr.shell.tags"]]))
+    shell_args <- c(shell_args, "--conf", paste0("spark.yarn.tags=",config[["spark.yarn.tags"]]))
     
 
     # add environment parameters to arguments
