@@ -1,27 +1,35 @@
 spark_yarn_cluster_get_conf_property <- function(property) {
+  write("got to 22", file="~/beulah", append=T)
   confDir <- Sys.getenv("YARN_CONF_DIR")
+  write(paste("YARN_CONF_DIR:",confDir), file="~/beulah", append=T)
+  
   if (nchar(confDir) == 0) {
 
     # some systems don't set YARN_CONF_DIR but do set HADOOP_CONF_DIR
     confDir <- Sys.getenv("HADOOP_CONF_DIR")
+    write(paste("HADOOP_CONF_DIR:",confDir), file="~/beulah", append=T)
     if (nchar(confDir) == 0) {
+      write("got to 23", file="~/beulah", append=T)
       stop("Yarn Cluster mode requires YARN_CONF_DIR or HADOOP_CONF_DIR to be set.")
     }
   }
 
   yarnSite <- file.path(confDir, "yarn-site.xml")
   if (!file.exists(yarnSite)) {
+    write("got to 24", file="~/beulah", append=T)
     stop("Yarn Cluster mode requires yarn-site.xml to exist under YARN_CONF_DIR")
   }
 
   yarnSiteXml <- xml2::read_xml(yarnSite)
 
+  write("got to 25", file="~/beulah", append=T)
   yarnPropertyValue <- xml2::xml_text(xml2::xml_find_all(
     yarnSiteXml,
     paste0("//name[.='", property, "']/parent::property/value")
   )
   )
 
+  write(paste("yarnPropertyValue:",yarnPropertyValue), file="~/beulah", append=T)
   yarnPropertyValue
 }
 
@@ -222,8 +230,9 @@ spark_yarn_cluster_get_resource_manager_webapp <- function() {
 }
 
 spark_yarn_cluster_get_protocol <- function() {
+  write("got to 21", file="~/beulah", append=T)
   useHttpsValue <- spark_yarn_cluster_get_conf_property("yarn.http.policy")
-
+  write(paste("useHttpsValue:",useHttpsValue), file="~/beulah", append=T)
   if (length(useHttpsValue) > 0 && toupper(useHttpsValue) == "HTTPS_ONLY")
     "https"
   else
