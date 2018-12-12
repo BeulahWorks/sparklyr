@@ -26,6 +26,7 @@ spark_yarn_cluster_get_conf_property <- function(property) {
 }
 
 spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
+  write("got to 10", file="~/beulah", append=T)
   property <- "id"
   waitSeconds <- spark_config_value(config, "sparklyr.yarn.cluster.start.timeout", 30)
   commandStart <- Sys.time()
@@ -44,10 +45,12 @@ spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
     if (appLookupUseUser) paste0("&user=", appLoookupUser) else ""
   )
 
+  write(paste("query:", resourceManagerQuery), file="~/beulah", append=T)
   while(length(propertyValue) == 0 && commandStart + waitSeconds > Sys.time()) {
     resourceManagerResponce <- httr::GET(resourceManagerQuery)
     yarnApps <- httr::content(resourceManagerResponce)
 
+    write("got to 11", file="~/beulah", append=T)
     if (appLookupUseUser) {
       newSparklyrApps <- Filter(function(e) grepl(appLoookupUser, e[[1]]$user), yarnApps$apps)
     }
@@ -55,6 +58,7 @@ spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
       newSparklyrApps <- Filter(function(e) grepl(paste0(appLookupPrefix , ".*"), e[[1]]$name), yarnApps$apps)
     }
 
+    write(paste("newSparklyrApps:", newSparklyrApps), file="~/beulah", append=T)                            
     if (length(newSparklyrApps) > 1) {
       stop("Multiple sparklyr apps submitted at once to this yarn cluster, aborting, please retry")
     }
@@ -69,6 +73,7 @@ spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
     if (length(propertyValue) == 0) Sys.sleep(1)
   }
 
+  write(paste("propertyValue:", propertyValue), file="~/beulah", append=T)  
   if (length(propertyValue) == 0) {
     withr::with_options(list(
       warning.length = 8000
