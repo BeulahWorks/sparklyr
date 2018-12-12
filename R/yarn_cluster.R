@@ -220,7 +220,7 @@ spark_yarn_cluster_get_protocol <- function() {
 }
 
 spark_yarn_cluster_get_gateway <- function(config, start_time) {
-  write("got to 1", file="log", append=T)
+  write("got to 1", file="log")
   resourceManagerWebapp <- spark_yarn_cluster_get_resource_manager_webapp()
 
   if (length(resourceManagerWebapp) == 0) {
@@ -234,6 +234,7 @@ spark_yarn_cluster_get_gateway <- function(config, start_time) {
     start_time,
     resourceManagerWebapp)
 
+  write(paste("appId:", appId), file="log", append=T)
   waitAcceptedSeconds <- spark_config_value(config, "sparklyr.yarn.cluster.accepted.timeout", 30)
   spark_yarn_cluster_while_app(
     resourceManagerWebapp,
@@ -280,5 +281,6 @@ spark_yarn_cluster_get_gateway <- function(config, start_time) {
     "amHostHttpAddress",
     ", try adjusting 'config$sparklyr.yarn.cluster.hostaddress.timeout'")
 
+  write(paste("amHostHttpAddress:", amHostHttpAddress), file="log", append=T)
   strsplit(amHostHttpAddress, ":")[[1]][[1]]
 }
