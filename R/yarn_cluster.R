@@ -150,6 +150,7 @@ spark_yarn_cluster_resource_manager_is_online <- function(rm_webapp) {
 }
 
 spark_yarn_cluster_get_resource_manager_webapp <- function() {
+  write("got to 3", file="log", append=T)
   rmHighAvailability <- spark_yarn_cluster_get_conf_property("yarn.resourcemanager.ha.enabled")
   rmHighAvailability <- length(rmHighAvailability) > 0 && grepl("TRUE", rmHighAvailability, ignore.case = TRUE)
 
@@ -189,8 +190,11 @@ spark_yarn_cluster_get_resource_manager_webapp <- function() {
     }
   }
 
+  write("got to 4", file="log", append=T)
   mainRMWebappValue <- spark_yarn_cluster_get_conf_property(mainRMWebapp)
 
+  write(paste("mainRMWebappValue:",mainRMWebappValue), file="log", append=T)
+  write(paste("rmHighAvailability:",rmHighAvailability), file="log", append=T)
   if (length(mainRMWebappValue) == 0) {
     if (rmHighAvailability) {
       stop("Failed to retrieve ", mainRMWebapp, " from yarn-site.xml")
@@ -198,15 +202,17 @@ spark_yarn_cluster_get_resource_manager_webapp <- function() {
     else {
       mainRM <- "yarn.resourcemanager.address"
       mainRMValue <- spark_yarn_cluster_get_conf_property(mainRM)
+      write(paste("mainRMValue:",mainRMValue), file="log", append=T)
       if (length(mainRMValue) == 0) {
         stop("Failed to retrieve ", mainRMWebapp, " from yarn-site.xml")
       }
       else {
         mainRMWebappValue <- paste(sub(":[0-9]+$", "", mainRMValue), 8088, sep = ":")
+         write(paste("mainRMWebappValue:",mainRMWebappValue), file="log", append=T)
       }
     }
   }
-
+ 
   mainRMWebappValue
 }
 
