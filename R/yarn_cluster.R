@@ -65,8 +65,7 @@ spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
     else {
       newSparklyrApps <- Filter(function(e) grepl(paste0(appLookupPrefix , ".*"), e[[1]]$name), yarnApps$apps)
     }
-
-    write(paste("newSparklyrApps:", newSparklyrApps), file="~/beulah", append=T)                            
+                           
     if (length(newSparklyrApps) > 1) {
       stop("Multiple sparklyr apps submitted at once to this yarn cluster, aborting, please retry")
     }
