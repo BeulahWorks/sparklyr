@@ -47,8 +47,8 @@ spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
 
   resourceManagerQuery <- paste0(
     rm_webapp,
-    "/ws/v1/cluster/apps?startedTimeBegin=",
-    start_time,
+    "/ws/v1/cluster/apps?applicationTags=",
+    config[["spark.yarn.tags"]],
     "&applicationType=SPARK",
     if (appLookupUseUser) paste0("&user=", appLoookupUser) else ""
   )
