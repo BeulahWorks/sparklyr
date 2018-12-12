@@ -222,11 +222,11 @@ spark_yarn_cluster_get_protocol <- function() {
 spark_yarn_cluster_get_gateway <- function(config, start_time) {
   write("got to 1", file="log")
   resourceManagerWebapp <- spark_yarn_cluster_get_resource_manager_webapp()
-
+  write(paste("resourceManagerWebapp:", resourceManagerWebapp), file="log", append=T)
   if (length(resourceManagerWebapp) == 0) {
     stop("Yarn Cluster mode uses `yarn.resourcemanager.webapp.address` but is not present in yarn-site.xml")
   }
-
+  write("got to 2", file="log", append=T)
   resourceManagerWebapp <- paste0(spark_yarn_cluster_get_protocol(), "://", resourceManagerWebapp)
 
   appId <- spark_yarn_cluster_get_app_id(
