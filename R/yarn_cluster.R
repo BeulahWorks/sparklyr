@@ -57,8 +57,8 @@ spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
   while(length(propertyValue) == 0 && commandStart + waitSeconds > Sys.time()) {
     resourceManagerResponce <- httr::GET(resourceManagerQuery)
     yarnAppsJSON <- httr::content(resourceManagerResponce, as="text")
-    yarnApps<- jsonlite::fromJSON(yarnAppsJSON)
-    if (is.atomic(yarnApps)) next
+    yarnApps<- jsonlite::fromJSON(yarnAppsJSON, simplifyVector=F)
+    #if (is.atomic(yarnApps)) next
 
     if (appLookupUseUser) {
       newSparklyrApps <- Filter(function(e) grepl(appLoookupUser, e[[1]]$user), yarnApps$apps)
