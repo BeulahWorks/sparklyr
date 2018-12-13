@@ -284,6 +284,7 @@ spark_yarn_cluster_get_gateway <- function(config, start_time) {
     )
   }
 
+  write("got to 31", file="~/beulah", append=T)
   # there is sometimes a delay to assign the host address even after app is in ACCEPTED state
   waitHostAddressSeconds <- spark_config_value(config, "sparklyr.yarn.cluster.hostaddress.timeout", 30)
   spark_yarn_cluster_while_app(
