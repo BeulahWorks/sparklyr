@@ -105,7 +105,8 @@ spark_yarn_cluster_get_app_property <- function(rm_webapp, appId, property, erro
   )
 
   resourceManagerResponce <- httr::GET(resourceManagerQuery)
-  yarnApp <- httr::content(resourceManagerResponce)
+  yarnAppJSON <- httr::content(resourceManagerResponce, as="text")
+  yarnApp<- jsonlite::fromJSON(yarnAppJSON)
 
   if (!"app" %in% names(yarnApp) || !property %in% names(yarnApp$app)) {
     withr::with_options(list(
