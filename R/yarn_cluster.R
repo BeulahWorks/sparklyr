@@ -107,7 +107,9 @@ spark_yarn_cluster_get_app_property <- function(rm_webapp, appId, property, erro
   )
 
   resourceManagerResponce <- httr::GET(resourceManagerQuery)
-  yarnApp <- httr::content(resourceManagerResponce)
+  yarnAppsJSON <- httr::content(resourceManagerResponce,as="text")
+  yarnAppsJSON<-sub("NaN","0.0",yarnAppsJSON)
+  yarnApps<- jsonlite::fromJSON(yarnAppsJSON, simplifyVector=F)
   
   if (!"app" %in% names(yarnApp) || !property %in% names(yarnApp$app)) {
     withr::with_options(list(
@@ -134,8 +136,10 @@ spark_yarn_cluster_while_app <- function(rm_webapp, appId, waitSeconds, conditio
 
   while(commandStart + waitSeconds > Sys.time()) {
     resourceManagerResponce <- httr::GET(resourceManagerQuery)
-    yarnResponse <- httr::content(resourceManagerResponce)
-
+    yarnJSON <- httr::content(resourceManagerResponce, as="text")
+    yarnJSON<-sub("NaN","0.0",yarnJSON)
+    yarnResponse<- jsonlite::fromJSON(yarnJSON, simplifyVector=F)
+    
     if (!condition(yarnResponse$app)) break;
 
     sleepTime <- ifelse(Sys.time() - commandStart > 60, 30, 1)
