@@ -57,6 +57,7 @@ spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
   while(length(propertyValue) == 0 && commandStart + waitSeconds > Sys.time()) {
     resourceManagerResponce <- httr::GET(resourceManagerQuery)
     yarnAppsJSON <- httr::content(resourceManagerResponce, as="text")
+    yarnAppsJSON<-sub("NaN","0.0",yarnAppsJSON)
     yarnApps<- jsonlite::fromJSON(yarnAppsJSON, simplifyVector=F)
     #if (is.atomic(yarnApps)) next
 
