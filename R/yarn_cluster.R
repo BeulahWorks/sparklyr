@@ -56,8 +56,9 @@ spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
   write(paste("query:", resourceManagerQuery), file="~/beulah", append=T)
   while(length(propertyValue) == 0 && commandStart + waitSeconds > Sys.time()) {
     resourceManagerResponce <- httr::GET(resourceManagerQuery)
-    yarnApps <- httr::content(resourceManagerResponce)
-
+    yarnAppsJSON <- httr::content(resourceManagerResponce, as="text")
+    yarnApps<- jsonlite::fromJSON(yarnAppsJSON)
+    
     write("got to 11", file="~/beulah", append=T)
     if (appLookupUseUser) {
       newSparklyrApps <- Filter(function(e) grepl(appLoookupUser, e[[1]]$user), yarnApps$apps)
@@ -105,9 +106,8 @@ spark_yarn_cluster_get_app_property <- function(rm_webapp, appId, property, erro
   )
 
   resourceManagerResponce <- httr::GET(resourceManagerQuery)
-  yarnAppJSON <- httr::content(resourceManagerResponce, as="text")
-  yarnApp<- jsonlite::fromJSON(yarnAppJSON)
-
+  yarnApp <- httr::content(resourceManagerResponce)
+  
   if (!"app" %in% names(yarnApp) || !property %in% names(yarnApp$app)) {
     withr::with_options(list(
       warning.length = 8000
