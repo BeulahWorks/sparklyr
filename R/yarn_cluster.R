@@ -56,7 +56,7 @@ spark_yarn_cluster_get_app_id <- function(config, start_time, rm_webapp) {
   write(paste("query:", resourceManagerQuery), file="~/beulah", append=T)
   while(length(propertyValue) == 0 && commandStart + waitSeconds > Sys.time()) {
     resourceManagerResponce <- httr::GET(resourceManagerQuery)
-    yarnAppsJSON <- httr::content(resourceManagerResponce, as="text")
+    yarnAppsJSON <- httr::content(resourceManagerResponce, as="text", encoding="UTF-8")
     yarnAppsJSON<-sub("NaN","0.0",yarnAppsJSON)
     yarnApps<- jsonlite::fromJSON(yarnAppsJSON, simplifyVector=F)
     #if (is.atomic(yarnApps)) next
@@ -107,7 +107,7 @@ spark_yarn_cluster_get_app_property <- function(rm_webapp, appId, property, erro
   )
 
   resourceManagerResponce <- httr::GET(resourceManagerQuery)
-  yarnAppsJSON <- httr::content(resourceManagerResponce,as="text")
+  yarnAppsJSON <- httr::content(resourceManagerResponce,as="text",encoding="UTF-8")
   yarnAppsJSON<-sub("NaN","0.0",yarnAppsJSON)
   yarnApp<- jsonlite::fromJSON(yarnAppsJSON, simplifyVector=F)
   
@@ -136,7 +136,7 @@ spark_yarn_cluster_while_app <- function(rm_webapp, appId, waitSeconds, conditio
 
   while(commandStart + waitSeconds > Sys.time()) {
     resourceManagerResponce <- httr::GET(resourceManagerQuery)
-    yarnJSON <- httr::content(resourceManagerResponce, as="text")
+    yarnJSON <- httr::content(resourceManagerResponce, as="text",encoding="UTF-8")
     yarnJSON<-sub("NaN","0.0",yarnJSON)
     yarnResponse<- jsonlite::fromJSON(yarnJSON, simplifyVector=F)
     
