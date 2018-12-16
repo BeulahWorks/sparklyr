@@ -286,7 +286,8 @@ start_shell <- function(master,
     
     #write(config[["spark.yarn.tags"]], file="~/beulah", append=T)
 
-    shell_args <- c(shell_args, "--conf", paste0("spark.yarn.tags=",config[["spark.yarn.tags"]]), paste0("spark.network.timeout=",config[["spark.network.timeout"]]))
+    shell_args <- c(shell_args, "--conf", paste0("spark.yarn.tags=",config[["spark.yarn.tags"]]))
+    shell_args <- c(shell_args, "--conf", paste0("spark.network.timeout=",config[["spark.network.timeout"]]))
     
 
     # add environment parameters to arguments
