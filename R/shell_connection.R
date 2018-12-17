@@ -288,8 +288,8 @@ start_shell <- function(master,
 
     shell_args <- c(shell_args, "--conf", paste0("spark.yarn.tags=",config[["spark.yarn.tags"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.network.timeout=",config[["spark.network.timeout"]]))
-    shell_args <- c(shell_args, "--conf", paste0("spark.driver.extraJavaOptions=",config[["spark.driver.extraJavaOptions"]]))
-    shell_args <- c(shell_args, "--conf", paste0("spark.executor.extraJavaOptions=",config[["spark.executor.extraJavaOptions"]]))
+    shell_args <- c(shell_args, "--conf", paste0("'spark.driver.extraJavaOptions=",config[["spark.driver.extraJavaOptions"]], "'"))
+    shell_args <- c(shell_args, "--conf", paste0("'spark.executor.extraJavaOptions=",config[["spark.executor.extraJavaOptions"]],"'"))
     
     # add environment parameters to arguments
     shell_env_args <- Sys.getenv("sparklyr.shell.args")
