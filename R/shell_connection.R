@@ -335,6 +335,7 @@ start_shell <- function(master,
     }
 
     # start the shell (w/ specified additional environment variables)
+    write("before:", file="~/beulah", append="T")
     env <- unlist(as.list(environment))
     withr::with_envvar(env, {
       system2(spark_submit_path,
@@ -344,6 +345,7 @@ start_shell <- function(master,
               wait = FALSE)
     })
 
+    write("after:", file="~/beulah", append="T")
     # support custom operations after spark-submit useful to enable port forwarding
     spark_config_value(config, c("sparklyr.connect.aftersubmit", "sparklyr.events.aftersubmit"))
 
