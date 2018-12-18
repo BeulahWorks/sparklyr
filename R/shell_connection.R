@@ -585,6 +585,7 @@ initialize_connection.spark_shell_connection <- function(sc) {
       conf <- invoke_new(sc, "org.apache.spark.SparkConf")
       conf <- invoke(conf, "setAppName", sc$app_name)
 
+       write("Yarn-client got to 5.21", file="~/beulah",append=T)
       if (!spark_master_is_yarn_cluster(sc$master, sc$config) &&
           !spark_master_is_gateway(sc$master)) {
         conf <- invoke(conf, "setMaster", sc$master)
@@ -596,13 +597,14 @@ initialize_connection.spark_shell_connection <- function(sc) {
       context_config <- connection_config(sc, "spark.", c("spark.sql."))
       apply_config(conf, context_config, "set", "spark.")
 
+       write("Yarn-client got to 5.22", file="~/beulah",append=T)
       default_config <- shell_connection_config_defaults()
       default_config_remove <- Filter(function(e) e %in% names(context_config), names(default_config))
       default_config[default_config_remove] <- NULL
       apply_config(conf, default_config, "set", "spark.")
 
       # create the spark context and assign the connection to it
-
+ write("Yarn-client got to 5.23", file="~/beulah",append=T)
       sc$state$spark_context <- invoke_static(
         sc,
         "org.apache.spark.SparkContext",
@@ -610,6 +612,7 @@ initialize_connection.spark_shell_connection <- function(sc) {
         conf
       )
 
+        write("Yarn-client got to 5.24", file="~/beulah",append=T)                               
       if (spark_version(sc) >= "2.0") {
         # For Spark 2.0+, we create a `SparkSession`.
         session <- invoke_static(
@@ -627,7 +630,7 @@ initialize_connection.spark_shell_connection <- function(sc) {
         # Set the `SparkContext`.
         sc$state$spark_context <- invoke(session, "sparkContext")
       }
-
+ write("Yarn-client got to 5.25", file="~/beulah",append=T)
       invoke(backend, "setSparkContext", spark_context(sc))
     }
 
