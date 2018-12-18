@@ -192,6 +192,7 @@ spark_connect <- function(master,
     stop("Unsupported connection method '", method, "'")
   }
 
+  write("yarn-client got to 4", file="~/beulah", append=T)
   scon <- initialize_connection(scon)
 
   # register mapping tables for spark.ml
@@ -216,6 +217,7 @@ spark_connect <- function(master,
   # be assigned into the global environment
   on_connection_opened(scon, globalenv(), connectCall)
 
+  write("yarn-client got to 5", file="~/beulah", append=T)
   # Register a finalizer to sleep on R exit to support older versions of the RStudio IDE
   reg.finalizer(asNamespace("sparklyr"), function(x) {
     if (connection_is_open(scon)) {
@@ -226,6 +228,7 @@ spark_connect <- function(master,
   # add to our internal list
   spark_connections_add(scon)
 
+  write("yarn-client got to 6", file="~/beulah", append=T)
   # return scon
   scon
 }
