@@ -194,11 +194,13 @@ spark_connect <- function(master,
 
   write("yarn-client got to 4", file="~/beulah", append=T)
   scon <- initialize_connection(scon)
-
+  
+  write("yarn-client got to 4.1", file="~/beulah", append=T)
   # register mapping tables for spark.ml
 
   register_mapping_tables()
 
+  write("yarn-client got to 4.2", file="~/beulah", append=T)
   # notify connection viewer of connection
   libs <- c("sparklyr", extensions)
   libs <- vapply(libs,
@@ -213,6 +215,7 @@ spark_connect <- function(master,
                        paste("sc <-", deparse(parentCall, width.cutoff = 500), collapse = " "),
                        sep = "\n")
 
+  write("yarn-client got to 4.3", file="~/beulah", append=T)
   # let viewer know that we've opened a connection; guess that the result will
   # be assigned into the global environment
   on_connection_opened(scon, globalenv(), connectCall)
