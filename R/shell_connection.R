@@ -575,9 +575,12 @@ initialize_connection.spark_shell_connection <- function(sc) {
   # initialize and return the connection
   tryCatch({
     backend <- invoke_static(sc, "sparklyr.Shell", "getBackend")
+    write("Yarn-client got to 5.0", file="~/beulah",append=T)
     sc$state$spark_context <- invoke(backend, "getSparkContext")
-
+     write("Yarn-client got to 5.1", file="~/beulah",append=T)
+    
     if (is.null(spark_context(sc))) {
+       write("Yarn-client got to 5.2", file="~/beulah",append=T)
       # create the spark config
       conf <- invoke_new(sc, "org.apache.spark.SparkConf")
       conf <- invoke(conf, "setAppName", sc$app_name)
@@ -628,6 +631,7 @@ initialize_connection.spark_shell_connection <- function(sc) {
       invoke(backend, "setSparkContext", spark_context(sc))
     }
 
+     write("Yarn-client got to 5.3", file="~/beulah",append=T)                                  
     sc$state$hive_context <- sc$state$hive_context %||% tryCatch(
       invoke_new(sc, "org.apache.spark.sql.hive.HiveContext", sc$state$spark_context),
       error = function(e) {
@@ -657,6 +661,7 @@ initialize_connection.spark_shell_connection <- function(sc) {
       }
     )
 
+     write("Yarn-client got to 5.4", file="~/beulah",append=T)                                  
     # create the java spark context and assign the connection to it
     sc$state$java_context <- invoke_static(
       sc,
@@ -664,10 +669,12 @@ initialize_connection.spark_shell_connection <- function(sc) {
       "fromSparkContext",
       spark_context(sc)
     )
-
+      write("Yarn-client got to 5.5", file="~/beulah",append=T)
+                                      
     # return the modified connection
     sc
   }, error = function(e) {
+     write(paste("Failed during initialize_connection:", e$message), file="~/beulah",append=T)
     abort_shell(
       paste("Failed during initialize_connection:", e$message),
       spark_submit_path = NULL,
