@@ -435,13 +435,14 @@ object Utils {
   }
 
   def portIsAvailable(port: Int, inetAddress: InetAddress) = {
+     
     var ss: ServerSocket = null
     var available = false
 
-    //Try {
+    Try {
         ss = new ServerSocket(port, 1, inetAddress)
         available = true
-    //}
+    }
 
     if (ss != null) {
         Try {
