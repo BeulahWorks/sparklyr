@@ -290,6 +290,9 @@ start_shell <- function(master,
     shell_args <- c(shell_args, "--conf", paste0("spark.network.timeout=",config[["spark.network.timeout"]]))
     shell_args <- c(shell_args, "--conf", paste0("'spark.driver.extraJavaOptions=",config[["spark.driver.extraJavaOptions"]], "'"))
     shell_args <- c(shell_args, "--conf", paste0("'spark.executor.extraJavaOptions=",config[["spark.executor.extraJavaOptions"]],"'"))
+    shell_args <- c(shell_args, "--conf", paste0("spark.rpc.netty.dispatcher.numThread=",config[["spark.rpc.netty.dispatcher.numThread"]]))
+    shell_args <- c(shell_args, "--conf", paste0("spark.rpc.io.threads=",config[["spark.rpc.io.threads"]]))
+    
     
     # add environment parameters to arguments
     shell_env_args <- Sys.getenv("sparklyr.shell.args")
