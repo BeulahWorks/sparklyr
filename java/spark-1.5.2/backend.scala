@@ -158,7 +158,7 @@ class Backend() {
       }
       else if (Utils.portIsAvailable(port, inetAddress))
       {
-        logger.log("found port " + port + " is available")
+        logger.log("found port comment" + port + " is available")
         logger = new Logger("Gateway", sessionId)
 
         gatewayServerSocket = new ServerSocket(port, 100, inetAddress)
