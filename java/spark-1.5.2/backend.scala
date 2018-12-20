@@ -149,6 +149,7 @@ class Backend() {
       inetAddress = InetAddress.getByAddress(anyIpAddress)
     }
 
+    logger.log("trying the port: " + port) 
     try {
       if (isWorker)
       {
