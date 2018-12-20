@@ -438,8 +438,7 @@ object Utils {
      
     var ss: ServerSocket = null
     var available = false
-    var n=3
-    while(n>0){
+
       Try {
           ss = new ServerSocket(port, 1, inetAddress)
           available = true
@@ -450,8 +449,7 @@ object Utils {
               ss.close();
           }
        }
-       n=n-1;
-    }
+
 
     available
   }
