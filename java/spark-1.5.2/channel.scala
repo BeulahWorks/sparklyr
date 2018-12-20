@@ -78,17 +78,21 @@ class BackendChannel(logger: Logger, terminate: () => Unit, serializer: Serializ
   }
 
   def close(): Unit = {
+    logger.log("got to channel 1.0")
     terminate()
 
     if (channelFuture != null) {
       // close is a local operation and should finish within milliseconds; timeout just to be safe
+      logger.log("got to channel 1.1")
       channelFuture.channel().close().awaitUninterruptibly(10, TimeUnit.SECONDS)
       channelFuture = null
     }
     if (bootstrap != null && bootstrap.group() != null) {
+      logger.log("got to channel 1.2")
       bootstrap.group().shutdownGracefully()
     }
     if (bootstrap != null && bootstrap.childGroup() != null) {
+      logger.log("got to channel 1.3")
       bootstrap.childGroup().shutdownGracefully()
     }
     bootstrap = null
