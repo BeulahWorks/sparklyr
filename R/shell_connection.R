@@ -292,6 +292,8 @@ start_shell <- function(master,
     shell_args <- c(shell_args, "--conf", paste0("'spark.executor.extraJavaOptions=",config[["spark.executor.extraJavaOptions"]],"'"))
     shell_args <- c(shell_args, "--conf", paste0("spark.rpc.netty.dispatcher.numThread=",config[["spark.rpc.netty.dispatcher.numThread"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.rpc.io.threads=",config[["spark.rpc.io.threads"]]))
+    shell_args <- c(shell_args, "--conf", paste0("spark.yarn.am.waitTime=",config[["spark.yarn.am.waitTime"]]))
+    
     
     
     # add environment parameters to arguments
