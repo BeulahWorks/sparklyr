@@ -294,6 +294,7 @@ start_shell <- function(master,
     shell_args <- c(shell_args, "--conf", paste0("spark.rpc.io.threads=",config[["spark.rpc.io.threads"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.yarn.am.waitTime=",config[["spark.yarn.am.waitTime"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.driver.port=",config[["spark.driver.port"]]))
+    shell_args <- c(shell_args, "--conf", paste0("spark.blockManager.port=",config[["spark.blockManager.port"]]))
     
     
     # add environment parameters to arguments
