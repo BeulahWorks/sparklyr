@@ -298,6 +298,7 @@ start_shell <- function(master,
     shell_args <- c(shell_args, "--conf", paste0("spark.history.ui.port=",config[["spark.history.ui.port"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.ui.port=",config[["spark.ui.port"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.shuffle.service.port=",config[["spark.shuffle.service.port"]]))
+    shell_args <- c(shell_args, "--conf", paste0("spark.executor.port=",config[["spark.executor.port"]]))
     
     # add environment parameters to arguments
     shell_env_args <- Sys.getenv("sparklyr.shell.args")
