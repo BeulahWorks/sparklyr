@@ -285,19 +285,43 @@ start_shell <- function(master,
     }
     
     #write(config[["spark.yarn.tags"]], file="~/beulah", append=T)
-
+    if (!is.null(config[["spark.yarn.tags"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.yarn.tags=",config[["spark.yarn.tags"]]))
+    
+    if (!is.null(config[["spark.network.timeout"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.network.timeout=",config[["spark.network.timeout"]]))
+    
+    if (!is.null(config[["spark.driver.extraJavaOptions"]]))
     shell_args <- c(shell_args, "--conf", paste0("'spark.driver.extraJavaOptions=",config[["spark.driver.extraJavaOptions"]], "'"))
+    
+    if (!is.null(config[["spark.executor.extraJavaOptions"]]))
     shell_args <- c(shell_args, "--conf", paste0("'spark.executor.extraJavaOptions=",config[["spark.executor.extraJavaOptions"]],"'"))
+    
+    if (!is.null(config[["spark.rpc.netty.dispatcher.numThread"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.rpc.netty.dispatcher.numThread=",config[["spark.rpc.netty.dispatcher.numThread"]]))
+    
+    if (!is.null(config[["spark.rpc.io.threads"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.rpc.io.threads=",config[["spark.rpc.io.threads"]]))
+    
+    if (!is.null(config[["spark.yarn.am.waitTime"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.yarn.am.waitTime=",config[["spark.yarn.am.waitTime"]]))
+    
+    if (!is.null(config[["spark.driver.port"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.driver.port=",config[["spark.driver.port"]]))
+    
+    if (!is.null(config[["spark.blockManager.port"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.blockManager.port=",config[["spark.blockManager.port"]]))
+    
+    if (!is.null(config[["spark.history.ui.port"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.history.ui.port=",config[["spark.history.ui.port"]]))
+    
+    if (!is.null(config[["spark.ui.port"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.ui.port=",config[["spark.ui.port"]]))
+   
+    if (!is.null(config[["spark.shuffle.service.port"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.shuffle.service.port=",config[["spark.shuffle.service.port"]]))
+    
+    if (!is.null(config[["spark.executor.port"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.executor.port=",config[["spark.executor.port"]]))
     
     # add environment parameters to arguments
