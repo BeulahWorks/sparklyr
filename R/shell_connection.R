@@ -182,6 +182,7 @@ start_shell <- function(master,
   {
     # read app jar through config, this allows "sparkr-shell" to test sparkr backend
     app_jar <- spark_config_value(config, c("sparklyr.connect.app.jar", "sparklyr.app.jar"), NULL)
+    shell_args <- c(shell_args, "--class", "sparklyr.Shell")
     if (is.null(app_jar)) {
       versionSparkHome <- spark_version_from_home(spark_home, default = spark_version)
 
