@@ -325,6 +325,9 @@ start_shell <- function(master,
     if (!is.null(config[["spark.executor.port"]]))
     shell_args <- c(shell_args, "--conf", paste0("spark.executor.port=",config[["spark.executor.port"]]))
     
+    if (!is.null(config[["spark.verbose"]]))
+    shell_args <- c(shell_args, "--verbose")
+    
     # add environment parameters to arguments
     shell_env_args <- Sys.getenv("sparklyr.shell.args")
     if (nchar(shell_env_args) > 0) {
